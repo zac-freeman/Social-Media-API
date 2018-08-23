@@ -1,5 +1,6 @@
 package com.cooksys.socialmediaassessment.entity;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.Embedded;
@@ -31,10 +32,10 @@ public class Users {
 	private Profile profile;
 
 	@NotNull
-	String joined;
+	private Timestamp joined;
 
 	@NotNull
-	Boolean active;
+	private Boolean active;
 
 	@ManyToMany(mappedBy = "followers")
 	private Set<Users> following;
@@ -56,7 +57,7 @@ public class Users {
 
 	public Users() {}
 
-	public Users(Integer id, @NotNull Credentials credentials, @NotNull Profile profile, @NotNull String joined,
+	public Users(Integer id, @NotNull Credentials credentials, @NotNull Profile profile, @NotNull Timestamp joined,
 			@NotNull Boolean active, Set<Users> following, Set<Users> followers, Set<Tweets> tweets,
 			Set<Tweets> mentions, Set<Tweets> likedTweets) {
 		super();
@@ -96,11 +97,11 @@ public class Users {
 		this.profile = profile;
 	}
 
-	public String getJoined() {
+	public Timestamp getJoined() {
 		return joined;
 	}
 
-	public void setJoined(String joined) {
+	public void setJoined(Timestamp joined) {
 		this.joined = joined;
 	}
 

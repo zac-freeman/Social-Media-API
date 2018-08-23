@@ -1,5 +1,6 @@
 package com.cooksys.socialmediaassessment.entity;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -21,16 +22,18 @@ public class Tags {
 	private String label;
 
 	@NotNull
-	private String firstUsed;
+	private Timestamp firstUsed;
 
 	@NotNull
-	private String lastUsed;
+	private Timestamp lastUsed;
 
 	@ManyToMany
 	@JoinTable(name = "hashtag_tweet")
 	private Set<Tweets> tweets;
 
-	public Tags(Integer id, @NotNull String label, @NotNull String firstUsed, @NotNull String lastUsed,
+	public Tags() {}
+
+	public Tags(Integer id, @NotNull String label, @NotNull Timestamp firstUsed, @NotNull Timestamp lastUsed,
 			Set<Tweets> tweets) {
 		super();
 		this.id = id;
@@ -56,19 +59,19 @@ public class Tags {
 		this.label = label;
 	}
 
-	public String getFirstUsed() {
+	public Timestamp getFirstUsed() {
 		return firstUsed;
 	}
 
-	public void setFirstUsed(String firstUsed) {
+	public void setFirstUsed(Timestamp firstUsed) {
 		this.firstUsed = firstUsed;
 	}
 
-	public String getLastUsed() {
+	public Timestamp getLastUsed() {
 		return lastUsed;
 	}
 
-	public void setLastUsed(String lastUsed) {
+	public void setLastUsed(Timestamp lastUsed) {
 		this.lastUsed = lastUsed;
 	}
 

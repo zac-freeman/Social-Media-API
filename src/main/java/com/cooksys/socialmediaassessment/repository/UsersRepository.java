@@ -8,4 +8,7 @@ import com.cooksys.socialmediaassessment.entity.Users;
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Integer> {
 
+	Users findUsersByCredentialsUsername(String username);
+
+	Users findUsersByCredentialsUsernameAndCredentialsPassword(String username, String password);
 }

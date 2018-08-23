@@ -1,5 +1,6 @@
 package com.cooksys.socialmediaassessment.entity;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -27,7 +28,7 @@ public class Tweets {
 	private String content;
 
 	@NotNull
-	private String posted;
+	private Timestamp posted;
 
 	@NotNull
 	private Boolean deleted;
@@ -55,9 +56,9 @@ public class Tweets {
 	@ManyToMany(mappedBy = "tweets")
 	private Set<Tags> hashTags;
 
-	public Tweets(Integer id, @NotNull Users author, String content, @NotNull String posted, @NotNull Boolean deleted,
-			Set<Tweets> replies, Tweets inReplyTo, Set<Tweets> repost, Tweets repostOf, Set<Users> likes,
-			Set<Users> mentionedUsers, Set<Tags> hashTags) {
+	public Tweets(Integer id, @NotNull Users author, String content, @NotNull Timestamp posted,
+			@NotNull Boolean deleted, Set<Tweets> replies, Tweets inReplyTo, Set<Tweets> repost, Tweets repostOf,
+			Set<Users> likes, Set<Users> mentionedUsers, Set<Tags> hashTags) {
 		super();
 		this.id = id;
 		this.author = author;
@@ -97,11 +98,11 @@ public class Tweets {
 		this.content = content;
 	}
 
-	public String getPosted() {
+	public Timestamp getPosted() {
 		return posted;
 	}
 
-	public void setPosted(String posted) {
+	public void setPosted(Timestamp posted) {
 		this.posted = posted;
 	}
 
