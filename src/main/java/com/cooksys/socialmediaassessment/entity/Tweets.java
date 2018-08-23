@@ -2,7 +2,6 @@ package com.cooksys.socialmediaassessment.entity;
 
 import java.util.Set;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.cooksys.socialmediaassessment.embeddable.Credentials;
-
 @Entity
 public class Tweets {
 
@@ -23,8 +20,9 @@ public class Tweets {
 	private Integer id;
 
 	@NotNull
-	@Embedded
-	private Credentials credentials;
+	@ManyToOne
+	@JoinColumn(name = "author_id")
+	private Users author;
 
 	private String content;
 
@@ -57,12 +55,12 @@ public class Tweets {
 	@ManyToMany(mappedBy = "tweets")
 	private Set<Tags> hashTags;
 
-	public Tweets(Integer id, @NotNull Credentials credentials, String content, @NotNull String posted,
-			@NotNull Boolean deleted, Set<Tweets> replies, Tweets inReplyTo, Set<Tweets> repost, Tweets repostOf,
-			Set<Users> likes, Set<Users> mentionedUsers, Set<Tags> hashTags) {
+	public Tweets(Integer id, @NotNull Users author, String content, @NotNull String posted, @NotNull Boolean deleted,
+			Set<Tweets> replies, Tweets inReplyTo, Set<Tweets> repost, Tweets repostOf, Set<Users> likes,
+			Set<Users> mentionedUsers, Set<Tags> hashTags) {
 		super();
 		this.id = id;
-		this.credentials = credentials;
+		this.author = author;
 		this.content = content;
 		this.posted = posted;
 		this.deleted = deleted;
@@ -83,12 +81,12 @@ public class Tweets {
 		this.id = id;
 	}
 
-	public Credentials getCredentials() {
-		return credentials;
+	public Users getAuthor() {
+		return author;
 	}
 
-	public void setCredentials(Credentials credentials) {
-		this.credentials = credentials;
+	public void setAuthor(Users author) {
+		this.author = author;
 	}
 
 	public String getContent() {
@@ -175,8 +173,8 @@ public class Tweets {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
 		result = prime * result + ((deleted == null) ? 0 : deleted.hashCode());
 		result = prime * result + ((hashTags == null) ? 0 : hashTags.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -199,15 +197,15 @@ public class Tweets {
 		if (getClass() != obj.getClass())
 			return false;
 		Tweets other = (Tweets) obj;
+		if (author == null) {
+			if (other.author != null)
+				return false;
+		} else if (!author.equals(other.author))
+			return false;
 		if (content == null) {
 			if (other.content != null)
 				return false;
 		} else if (!content.equals(other.content))
-			return false;
-		if (credentials == null) {
-			if (other.credentials != null)
-				return false;
-		} else if (!credentials.equals(other.credentials))
 			return false;
 		if (deleted == null) {
 			if (other.deleted != null)
