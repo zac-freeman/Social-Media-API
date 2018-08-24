@@ -35,7 +35,7 @@ public class UserController {
 
 	@GetMapping
 	public List<UserResponseDTO> getUsers() {
-		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(this.uService.getUsers());
+		return this.uMapper.toResponseDTOs(this.uService.getUsers());
 	}
 
 	@PostMapping
@@ -75,26 +75,26 @@ public class UserController {
 
 	@GetMapping("/@{username}/feed")
 	public List<TweetResponseDTO> getFeed(@PathVariable(name = "username") String username) {
-		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.uService.getFeed(username));
+		return this.tMapper.toResponseDTOs(this.uService.getFeed(username));
 	}
 
 	@GetMapping("/@{username}/tweets")
 	public List<TweetResponseDTO> getTweets(@PathVariable(name = "username") String username) {
-		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.uService.getTweets(username));
+		return this.tMapper.toResponseDTOs(this.uService.getTweets(username));
 	}
 
 	@GetMapping("/@{username}/mentions")
 	public List<TweetResponseDTO> getMentions(@PathVariable(name = "username") String username) {
-		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.uService.getMentions(username));
+		return this.tMapper.toResponseDTOs(this.uService.getMentions(username));
 	}
 
 	@GetMapping("/@{username}/followers")
 	public List<UserResponseDTO> getFollowers(@PathVariable(name = "username") String username) {
-		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(this.uService.getFollowers(username));
+		return this.uMapper.toResponseDTOs(this.uService.getFollowers(username));
 	}
 
 	@GetMapping("/@{username}/following")
 	public List<UserResponseDTO> getFollowing(@PathVariable(name = "username") String username) {
-		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(this.uService.getFollowing(username));
+		return this.uMapper.toResponseDTOs(this.uService.getFollowing(username));
 	}
 }

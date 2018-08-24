@@ -2,9 +2,8 @@ package com.cooksys.socialmediaassessment.service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
 
 import org.springframework.stereotype.Service;
 
@@ -36,11 +35,13 @@ public class UserService {
 		return this.uRepo.findAll();
 	}
 
-	// TODO: check if deactivated
 	public User createUser(User user) {
-		user.setJoined(new Timestamp(Instant.now().toEpochMilli()));
-		user.setActive(true);
-		return this.uRepo.save(user);
+		if (!this.exists(user.getCredentials().getUsername())) {
+			user.setJoined(new Timestamp(Instant.now().toEpochMilli()));
+			user.setActive(true);
+			return this.uRepo.save(user);
+		}
+		return null;
 	}
 
 	public User getUser(String username) {
@@ -102,10 +103,10 @@ public class UserService {
 		this.uRepo.save(follower);
 	}
 
-	public Collection<Tweet> getFeed(String username) {
+	public List<Tweet> getFeed(String username) {
 		User user = this.getUser(username);
-		List<User> following = (List<User>) user.getFollowing();
-		List<Tweet> feed = (List<Tweet>) user.getTweets();
+		List<User> following = user.getFollowing();
+		List<Tweet> feed = user.getTweets();
 		for (User followee : following) {
 			feed.addAll(followee.getTweets());
 		}
@@ -113,24 +114,24 @@ public class UserService {
 		return feed;
 	}
 
-	public Collection<Tweet> getTweets(String username) {
-		List<Tweet> tweets = (List<Tweet>) this.getUser(username).getTweets();
+	public List<Tweet> getTweets(String username) {
+		List<Tweet> tweets = this.getUser(username).getTweets();
 		Collections.sort(tweets, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
 		return tweets;
 	}
 
-	public Collection<Tweet> getMentions(String username) {
-		List<Tweet> mentions = (List<Tweet>) this.getUser(username).getMentions();
+	public List<Tweet> getMentions(String username) {
+		List<Tweet> mentions = this.getUser(username).getMentions();
 		Collections.sort(mentions, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
 		return mentions;
 	}
 
-	public Collection<User> getFollowers(String username) {
+	public List<User> getFollowers(String username) {
 		User followee = this.uRepo.findUserByCredentialsUsername(username);
 		return followee.getFollowers();
 	}
 
-	public Collection<User> getFollowing(String username) {
+	public List<User> getFollowing(String username) {
 		User follower = this.uRepo.findUserByCredentialsUsername(username);
 		return follower.getFollowing();
 	}

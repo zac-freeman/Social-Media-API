@@ -1,6 +1,6 @@
 package com.cooksys.socialmediaassessment.mapper;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,11 +18,11 @@ public interface UserMapper {
 			@Mapping(source = "credentials.username", target = "username") })
 	UserResponseDTO toResponseDTO(User user);
 
-	Collection<UserResponseDTO> toResponseDTOs(Collection<User> users);
+	List<UserResponseDTO> toResponseDTOs(List<User> users);
 
 	// UserRequestDTO
 	User fromRequestDTO(UserRequestDTO userRequestDTO);
 
-	Collection<User> fromRequestDTOs(Collection<UserRequestDTO> userRequestDTOs);
+	List<User> fromRequestDTOs(List<UserRequestDTO> userRequestDTOs);
 
 }

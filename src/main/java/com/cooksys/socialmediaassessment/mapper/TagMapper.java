@@ -1,6 +1,6 @@
 package com.cooksys.socialmediaassessment.mapper;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 
@@ -11,6 +11,6 @@ import com.cooksys.socialmediaassessment.entity.Tag;
 public interface TagMapper {
 
 	public TagResponseDTO toResponseDTOs(Tag tag);
-	public Collection<TagResponseDTO> toResponseDTOs(Collection<Tag> tags);
+	public List<TagResponseDTO> toResponseDTOs(List<Tag> tags);
 
 }

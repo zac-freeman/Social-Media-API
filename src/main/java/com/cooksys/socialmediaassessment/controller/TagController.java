@@ -29,11 +29,11 @@ public class TagController {
 
 	@GetMapping
 	public List<TagResponseDTO> getTags() {
-		return (List<TagResponseDTO>) this.tagMapper.toResponseDTOs(this.tagService.getTags());
+		return this.tagMapper.toResponseDTOs(this.tagService.getTags());
 	}
 
 	@GetMapping("/{label}")
 	public List<TweetResponseDTO> getTweets(@PathVariable(name = "label") String label) {
-		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.tagService.getTweets(label));
+		return this.tMapper.toResponseDTOs(this.tagService.getTweets(label));
 	}
 }

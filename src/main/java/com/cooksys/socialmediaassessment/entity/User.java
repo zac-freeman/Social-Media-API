@@ -1,7 +1,7 @@
 package com.cooksys.socialmediaassessment.entity;
 
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -38,29 +38,29 @@ public class User {
 	private Boolean active;
 
 	@ManyToMany(mappedBy = "followers")
-	private Set<User> following;
+	private List<User> following;
 
 	@ManyToMany
 	@JoinTable(name = "followee_follower")
-	private Set<User> followers;
+	private List<User> followers;
 
 	@OneToMany
-	private Set<Tweet> tweets;
+	private List<Tweet> tweets;
 
 	@ManyToMany
 	@JoinTable(name = "user_mention")
-	private Set<Tweet> mentions;
+	private List<Tweet> mentions;
 
 	@ManyToMany
 	@JoinTable(name = "user_like")
-	private Set<Tweet> likedTweets;
+	private List<Tweet> likedTweets;
 
 	public User() {
 	}
 
 	public User(Integer id, @NotNull Credentials credentials, @NotNull Profile profile, @NotNull Timestamp joined,
-			@NotNull Boolean active, Set<User> following, Set<User> followers, Set<Tweet> tweets, Set<Tweet> mentions,
-			Set<Tweet> likedTweets) {
+			@NotNull Boolean active, List<User> following, List<User> followers, List<Tweet> tweets, List<Tweet> mentions,
+			List<Tweet> likedTweets) {
 		super();
 		this.id = id;
 		this.credentials = credentials;
@@ -114,43 +114,43 @@ public class User {
 		this.active = active;
 	}
 
-	public Set<User> getFollowing() {
+	public List<User> getFollowing() {
 		return following;
 	}
 
-	public void setFollowing(Set<User> following) {
+	public void setFollowing(List<User> following) {
 		this.following = following;
 	}
 
-	public Set<User> getFollowers() {
+	public List<User> getFollowers() {
 		return followers;
 	}
 
-	public void setFollowers(Set<User> followers) {
+	public void setFollowers(List<User> followers) {
 		this.followers = followers;
 	}
 
-	public Set<Tweet> getTweets() {
+	public List<Tweet> getTweets() {
 		return tweets;
 	}
 
-	public void setTweets(Set<Tweet> tweets) {
+	public void setTweets(List<Tweet> tweets) {
 		this.tweets = tweets;
 	}
 
-	public Set<Tweet> getMentions() {
+	public List<Tweet> getMentions() {
 		return mentions;
 	}
 
-	public void setMentions(Set<Tweet> mentions) {
+	public void setMentions(List<Tweet> mentions) {
 		this.mentions = mentions;
 	}
 
-	public Set<Tweet> getLikedTweets() {
+	public List<Tweet> getLikedTweets() {
 		return likedTweets;
 	}
 
-	public void setLikedTweets(Set<Tweet> likedTweets) {
+	public void setLikedTweets(List<Tweet> likedTweets) {
 		this.likedTweets = likedTweets;
 	}
 

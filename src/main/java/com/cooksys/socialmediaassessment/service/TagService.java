@@ -24,11 +24,11 @@ public class TagService {
 		return (this.tagRepo.findTagByLabel(label) != null);
 	}
 
-	public Collection<Tag> getTags() {
+	public List<Tag> getTags() {
 		return tagRepo.findAll();
 	}
 
-	public Collection<Tweet> getTweets(String label) {
+	public List<Tweet> getTweets(String label) {
 		List<Tweet> tweets = (List<Tweet>) this.tagRepo.findTagByLabel(label).getTweets();
 		Collections.sort(tweets, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
 		return tweets;

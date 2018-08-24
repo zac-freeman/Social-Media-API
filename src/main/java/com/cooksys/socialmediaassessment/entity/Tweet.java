@@ -1,7 +1,7 @@
 package com.cooksys.socialmediaassessment.entity;
 
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,34 +34,34 @@ public class Tweet {
 	private Boolean visible;
 
 	@OneToMany
-	private Set<Tweet> replies;
+	private List<Tweet> replies;
 
 	@ManyToOne
 	@JoinColumn(name = "inReplyTo_id")
 	private Tweet inReplyTo;
 
 	@OneToMany
-	private Set<Tweet> reposts;
+	private List<Tweet> reposts;
 
 	@ManyToOne
 	@JoinColumn(name = "repostOf_id")
 	private Tweet repostOf;
 
 	@ManyToMany(mappedBy = "likedTweets")
-	private Set<User> likes;
+	private List<User> likes;
 
 	@ManyToMany(mappedBy = "mentions")
-	private Set<User> mentionedUsers;
+	private List<User> mentionedUsers;
 
 	@ManyToMany(mappedBy = "tweets")
-	private Set<Tag> hashtags;
+	private List<Tag> hashtags;
 
 	public Tweet() {
 	}
 
 	public Tweet(Integer id, @NotNull User author, String content, @NotNull Timestamp posted, @NotNull Boolean visible,
-			Set<Tweet> replies, Tweet inReplyTo, Set<Tweet> reposts, Tweet repostOf, Set<User> likes,
-			Set<User> mentionedUsers, Set<Tag> hashtags) {
+			List<Tweet> replies, Tweet inReplyTo, List<Tweet> reposts, Tweet repostOf, List<User> likes,
+			List<User> mentionedUsers, List<Tag> hashtags) {
 		super();
 		this.id = id;
 		this.author = author;
@@ -117,11 +117,11 @@ public class Tweet {
 		this.visible = visible;
 	}
 
-	public Set<Tweet> getReplies() {
+	public List<Tweet> getReplies() {
 		return replies;
 	}
 
-	public void setReplies(Set<Tweet> replies) {
+	public void setReplies(List<Tweet> replies) {
 		this.replies = replies;
 	}
 
@@ -133,11 +133,11 @@ public class Tweet {
 		this.inReplyTo = inReplyTo;
 	}
 
-	public Set<Tweet> getReposts() {
+	public List<Tweet> getReposts() {
 		return reposts;
 	}
 
-	public void setReposts(Set<Tweet> reposts) {
+	public void setReposts(List<Tweet> reposts) {
 		this.reposts = reposts;
 	}
 
@@ -149,27 +149,27 @@ public class Tweet {
 		this.repostOf = repostOf;
 	}
 
-	public Set<User> getLikes() {
+	public List<User> getLikes() {
 		return likes;
 	}
 
-	public void setLikes(Set<User> likes) {
+	public void setLikes(List<User> likes) {
 		this.likes = likes;
 	}
 
-	public Set<User> getMentionedUsers() {
+	public List<User> getMentionedUsers() {
 		return mentionedUsers;
 	}
 
-	public void setMentionedUsers(Set<User> mentionedUsers) {
+	public void setMentionedUsers(List<User> mentionedUsers) {
 		this.mentionedUsers = mentionedUsers;
 	}
 
-	public Set<Tag> getHashtags() {
+	public List<Tag> getHashtags() {
 		return hashtags;
 	}
 
-	public void setHashtags(Set<Tag> hashtags) {
+	public void setHashtags(List<Tag> hashtags) {
 		this.hashtags = hashtags;
 	}
 

@@ -1,6 +1,6 @@
 package com.cooksys.socialmediaassessment.mapper;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,7 +20,7 @@ public interface TweetMapper {
 	@Mapping(target = "posted", expression = "java(tweet.getPosted().getTime())")
 	TweetResponseDTO toResponseDTO(Tweet tweet);
 
-	Collection<TweetResponseDTO> toResponseDTOs(Collection<Tweet> tweets);
+	List<TweetResponseDTO> toResponseDTOs(List<Tweet> tweets);
 
 	@Mapping(source = "credentials", target = "author.credentials")
 	Tweet fromRequestDTO(TweetRequestDTO tweetRequestDTO);

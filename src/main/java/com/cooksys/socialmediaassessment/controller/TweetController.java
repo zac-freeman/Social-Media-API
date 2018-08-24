@@ -36,7 +36,7 @@ public class TweetController {
 
 	@GetMapping
 	public List<TweetResponseDTO> getTweets() {
-		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.tService.getTweets());
+		return this.tMapper.toResponseDTOs(this.tService.getTweets());
 	}
 
 	@PostMapping
@@ -73,28 +73,28 @@ public class TweetController {
 	// TODO: convert Tag entity to DTO
 	@GetMapping("/{id}/tags")
 	public List<Tag> getHashtags(@PathVariable(name = "id") Tweet tweet) {
-		return (List<Tag>) tweet.getHashtags();
+		return tweet.getHashtags();
 	}
 
 	@GetMapping("/{id}/likes")
 	public List<UserResponseDTO> getLikes(@PathVariable(name = "id") Tweet tweet) {
-		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(tweet.getLikes());
+		return this.uMapper.toResponseDTOs(tweet.getLikes());
 	}
 
 	// TODO: getContext()
 
 	@GetMapping("/{id}/replies")
 	public List<TweetResponseDTO> getDirectReplies(@PathVariable(name = "id") Tweet tweet) {
-		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(tweet.getReplies());
+		return this.tMapper.toResponseDTOs(tweet.getReplies());
 	}
 
 	@GetMapping("/{id}/reposts")
 	public List<TweetResponseDTO> getDirectReposts(@PathVariable(name = "id") Tweet tweet) {
-		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(tweet.getReposts());
+		return this.tMapper.toResponseDTOs(tweet.getReposts());
 	}
 
 	@GetMapping("/{id}/mentions")
 	public List<UserResponseDTO> getMentions(@PathVariable(name = "id") Tweet tweet) {
-		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(tweet.getMentionedUsers());
+		return this.uMapper.toResponseDTOs(tweet.getMentionedUsers());
 	}
 }
