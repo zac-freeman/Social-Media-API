@@ -48,6 +48,7 @@ public class UserController {
 		return this.uMapper.toResponseDTO(this.uService.getUser(username));
 	}
 
+	//TODO: make sure it ignores null fields
 	@PatchMapping("/@{username}")
 	public UserResponseDTO updateProfile(@PathVariable(name = "username") String username,
 			@RequestBody UserRequestDTO userRequestDTO) {

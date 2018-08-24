@@ -11,19 +11,21 @@ import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.embeddable.Profile;
 import com.cooksys.socialmediaassessment.entity.Tweet;
 import com.cooksys.socialmediaassessment.entity.User;
+import com.cooksys.socialmediaassessment.repository.TweetRepository;
 import com.cooksys.socialmediaassessment.repository.UserRepository;
 
 //TODO: ADD EXCEPTIONS AFTER FINISHING ENDPOINTS
 //TODO: HANDLE DEACTIVATED USERS
 //TODO: HANDLE HIDDEN TWEETS
-//TODO: CATCH DUPLICATE ENTRIES
 @Service
 public class UserService {
 
 	private UserRepository uRepo;
+	private TweetRepository tRepo;
 
-	public UserService(UserRepository uRepo) {
+	public UserService(UserRepository uRepo, TweetRepository tRepo) {
 		this.uRepo = uRepo;
+		this.tRepo = tRepo;
 	}
 
 
@@ -32,7 +34,9 @@ public class UserService {
 	}
 
 	public List<User> getUsers() {
-		return this.uRepo.findAll();
+		List<User> users = this.uRepo.findAll();
+		users.removeIf(u -> u.getActive() == false);
+		return users;
 	}
 
 	public User createUser(User user) {
@@ -45,7 +49,11 @@ public class UserService {
 	}
 
 	public User getUser(String username) {
-		return this.uRepo.findUserByCredentialsUsername(username);
+		User user = this.uRepo.findUserByCredentialsUsername(username);
+		if (user != null && user.getActive() == true) {
+			return user;
+		}
+		return null;
 	}
 
 	public User updateProfile(String username, User user) {
@@ -77,6 +85,10 @@ public class UserService {
 	public User deactivateUser(String username, String password) {
 		User deactivatedUser = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(username, password);
 		deactivatedUser.setActive(false);
+		for (Tweet tweet : deactivatedUser.getTweets()) {
+			tweet.setVisible(false);
+			this.tRepo.save(tweet);
+		}
 		this.uRepo.save(deactivatedUser);
 		return deactivatedUser;
 	}
@@ -110,19 +122,19 @@ public class UserService {
 		for (User followee : following) {
 			feed.addAll(followee.getTweets());
 		}
-		Collections.sort(feed, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
+		Collections.sort(feed, (t2, t1) -> t1.getPosted().compareTo(t2.getPosted()));
 		return feed;
 	}
 
 	public List<Tweet> getTweets(String username) {
 		List<Tweet> tweets = this.getUser(username).getTweets();
-		Collections.sort(tweets, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
+		Collections.sort(tweets, (t2, t1) -> t1.getPosted().compareTo(t2.getPosted()));
 		return tweets;
 	}
 
 	public List<Tweet> getMentions(String username) {
 		List<Tweet> mentions = this.getUser(username).getMentions();
-		Collections.sort(mentions, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
+		Collections.sort(mentions, (t2, t1) -> t1.getPosted().compareTo(t2.getPosted()));
 		return mentions;
 	}
 

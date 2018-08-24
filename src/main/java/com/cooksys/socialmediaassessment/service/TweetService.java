@@ -2,14 +2,19 @@ package com.cooksys.socialmediaassessment.service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
 
 import com.cooksys.socialmediaassessment.dto.TweetRequestDTO;
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
+import com.cooksys.socialmediaassessment.entity.Tag;
 import com.cooksys.socialmediaassessment.entity.Tweet;
 import com.cooksys.socialmediaassessment.entity.User;
+import com.cooksys.socialmediaassessment.repository.TagRepository;
 import com.cooksys.socialmediaassessment.repository.TweetRepository;
 import com.cooksys.socialmediaassessment.repository.UserRepository;
 
@@ -19,14 +24,18 @@ public class TweetService {
 
 	private TweetRepository tRepo;
 	private UserRepository uRepo;
+	private TagRepository tagRepo;
 
-	public TweetService(TweetRepository tRepo, UserRepository uRepo) {
+	public TweetService(TweetRepository tRepo, UserRepository uRepo, TagRepository tagRepo) {
 		this.tRepo = tRepo;
 		this.uRepo = uRepo;
+		this.tagRepo = tagRepo;
 	}
 
 	public List<Tweet> getTweets() {
-		return this.tRepo.findAll();
+		List<Tweet> tweets = this.tRepo.findAll();
+		tweets.removeIf(t -> t.getVisible() == false);
+		return tweets;
 	}
 
 	public Tweet createTweet(String content, Credentials creds) {
@@ -36,8 +45,25 @@ public class TweetService {
 		tweet.setAuthor(author);
 		tweet.setPosted(new Timestamp(Instant.now().toEpochMilli()));
 		tweet.setVisible(true);
-		// TODO: setMentionedUser
-		// TODO: setHashtags
+		for (String mention : this.parseMentions(content)) {
+			mention = mention.substring(1);
+			User mentionedUser = this.uRepo.findUserByCredentialsUsername(mention);
+			mentionedUser.getMentions().add(tweet);
+			tweet.getMentionedUsers().add(mentionedUser);
+			this.uRepo.save(mentionedUser);
+		}
+		for (String label : this.parseHashtags(content)) {
+			label = label.substring(1);
+			Tag hashtag = this.tagRepo.findTagByLabel(label);
+			if (hashtag == null) {
+				hashtag = new Tag();
+				hashtag.setFirstUsed(new Timestamp(Instant.now().toEpochMilli()));
+				hashtag.setLabel(label);
+			}
+			hashtag.getTweets().add(tweet);
+			hashtag.setLastUsed(new Timestamp(Instant.now().toEpochMilli()));
+			this.tagRepo.save(hashtag);
+		}
 
 		author.getTweets().add(this.tRepo.save(tweet));
 		this.uRepo.save(author);
@@ -79,5 +105,25 @@ public class TweetService {
 		return this.tRepo.save(repost);
 	}
 
-	// TODO: parsing function
+	public List<String> parseHashtags(String content) {
+		String patternString = "[#]{1}[A-Za-z0-9-_]{1,}";
+		Pattern pattern = Pattern.compile(patternString);
+		Matcher matcher = pattern.matcher(content);
+		List<String> hashtags = new ArrayList<String>();
+		while (matcher.find()) {
+			hashtags.add(matcher.group());
+		}
+		return hashtags;
+	}
+
+	public List<String> parseMentions(String content) {
+		String patternString = "[@]{1}[A-Za-z0-9-_]{1,}";
+		Pattern pattern = Pattern.compile(patternString);
+		Matcher matcher = pattern.matcher(content);
+		List<String> mentions = new ArrayList<String>();
+		while (matcher.find()) {
+			mentions.add(matcher.group());
+		}
+		return mentions;
+	}
 }

@@ -30,7 +30,7 @@ public class TagService {
 
 	public List<Tweet> getTweets(String label) {
 		List<Tweet> tweets = (List<Tweet>) this.tagRepo.findTagByLabel(label).getTweets();
-		Collections.sort(tweets, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
+		Collections.sort(tweets, (t2, t1) -> t1.getPosted().compareTo(t2.getPosted()));
 		return tweets;
 	}
 }

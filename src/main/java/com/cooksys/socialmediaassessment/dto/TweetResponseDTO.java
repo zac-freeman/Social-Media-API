@@ -7,7 +7,7 @@ public class TweetResponseDTO {
 	private long posted;
 	private String content;
 	private TweetResponseDTO inReplyTo;
-	private TweetResponseDTO repostOf; // TODO: ask what the contents of these tweets should be
+	private TweetResponseDTO repostOf;
 
 	public Integer getId() {
 		return id;
