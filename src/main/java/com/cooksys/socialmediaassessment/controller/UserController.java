@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class UserController {
 	}
 
 	@PostMapping
-	public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
+	public UserResponseDTO createUser(@RequestBody UserRequestDTO userRequestDTO) {
 		return this.uMapper.toResponseDTO(this.uService.createUser(this.uMapper.fromRequestDTO(userRequestDTO)));
 	}
 
@@ -45,23 +46,22 @@ public class UserController {
 
 	//TODO: ask how to pass this as a single object
 	@PatchMapping("/@{username}")
-	public UserResponseDTO updateProfile(@PathVariable(name = "username") String username, UserRequestDTO userRequestDTO) {
+	public UserResponseDTO updateProfile(@PathVariable(name = "username") String username, @RequestBody UserRequestDTO userRequestDTO) {
 		return this.uMapper.toResponseDTO(this.uService.updateProfile(username, this.uMapper.fromRequestDTO(userRequestDTO)));
 	}
 
-	//TODO: ask how to pass this as a single object, should I just take a Credentials object as a parameter
 	@DeleteMapping("/@{username}")
-	public UserResponseDTO deactivateUser(@PathVariable(name = "username") String username, String password) {
-		return this.uMapper.toResponseDTO(this.uService.deactivateUser(username, password));
+	public UserResponseDTO deactivateUser(@PathVariable(name = "username") String username, @RequestBody Credentials creds) {
+		return this.uMapper.toResponseDTO(this.uService.deactivateUser(username, creds.getPassword()));
 	}
 
 	@PostMapping("/@{username}/follow")
-	public void followUser(@PathVariable(name = "username") String usernameToFollow, Credentials followerCreds) {
+	public void followUser(@PathVariable(name = "username") String usernameToFollow, @RequestBody Credentials followerCreds) {
 		this.uService.followUser(usernameToFollow, followerCreds);
 	}
 
 	@PostMapping("/@{username}/unfollow")
-	public void unfollowUser(@PathVariable(name = "username") String usernameToFollow, Credentials followerCreds) {
+	public void unfollowUser(@PathVariable(name = "username") String usernameToFollow, @RequestBody Credentials followerCreds) {
 		this.uService.unfollowUser(usernameToFollow, followerCreds);
 	}
 

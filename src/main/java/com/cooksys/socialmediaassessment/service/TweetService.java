@@ -12,6 +12,7 @@ import com.cooksys.socialmediaassessment.entity.User;
 import com.cooksys.socialmediaassessment.repository.TweetRepository;
 import com.cooksys.socialmediaassessment.repository.UserRepository;
 
+//TODO: ADD EXCEPTIONS
 @Service
 public class TweetService {
 
@@ -34,11 +35,24 @@ public class TweetService {
 		tweet.setAuthor(author);
 		tweet.setPosted(new Timestamp(Instant.now().toEpochMilli()));
 		tweet.setVisible(true);
-		//setMentionedUser
-		//setHashtags
+		//TODO: setMentionedUser
+		//TODO: setHashtags
 
 		author.getTweets().add(this.tRepo.save(tweet));
 		this.uRepo.save(author);
 		return tweet;
 	}
+
+	public Tweet hideTweet(Tweet tweet, Credentials credentials) {
+		User author = this.uRepo.findUserByCredentials(credentials);
+		if (author != null) {
+			tweet.setVisible(false);
+			return this.tRepo.save(tweet);
+		}
+		return null;
+	}
+
+	
+
+	//TODO: parsing function
 }
