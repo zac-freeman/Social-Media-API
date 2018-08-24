@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.socialmediaassessment.dto.TweetResponseDTO;
 import com.cooksys.socialmediaassessment.dto.UserRequestDTO;
 import com.cooksys.socialmediaassessment.dto.UserResponseDTO;
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
+import com.cooksys.socialmediaassessment.mapper.TweetMapper;
 import com.cooksys.socialmediaassessment.mapper.UserMapper;
 import com.cooksys.socialmediaassessment.service.UserService;
 
@@ -23,10 +25,12 @@ public class UserController {
 
 	private UserService uService;
 	private UserMapper uMapper;
+	private TweetMapper tMapper;
 
-	public UserController (UserService uService, UserMapper uMapper) {
+	public UserController (UserService uService, UserMapper uMapper, TweetMapper tMapper) {
 		this.uService = uService;
 		this.uMapper = uMapper;
+		this.tMapper = tMapper;
 	}
 
 	@GetMapping
@@ -44,7 +48,6 @@ public class UserController {
 		return this.uMapper.toResponseDTO(this.uService.getUser(username));
 	}
 
-	//TODO: ask how to pass this as a single object
 	@PatchMapping("/@{username}")
 	public UserResponseDTO updateProfile(@PathVariable(name = "username") String username, @RequestBody UserRequestDTO userRequestDTO) {
 		return this.uMapper.toResponseDTO(this.uService.updateProfile(username, this.uMapper.fromRequestDTO(userRequestDTO)));
@@ -63,6 +66,21 @@ public class UserController {
 	@PostMapping("/@{username}/unfollow")
 	public void unfollowUser(@PathVariable(name = "username") String usernameToFollow, @RequestBody Credentials followerCreds) {
 		this.uService.unfollowUser(usernameToFollow, followerCreds);
+	}
+
+	@GetMapping("/@{username}/feed")
+	public List<TweetResponseDTO> getFeed(@PathVariable(name = "username") String username) {
+		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.uService.getFeed(username));
+	}
+
+	@GetMapping("/@{username}/tweets")
+	public List<TweetResponseDTO> getTweets(@PathVariable(name = "username") String username) {
+		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.uService.getTweets(username));
+	}
+
+	@GetMapping("/@{username}/mentions")
+	public List<TweetResponseDTO> getMentions(@PathVariable(name = "username") String username) {
+		return (List<TweetResponseDTO>) this.tMapper.toResponseDTOs(this.uService.getMentions(username));
 	}
 
 	@GetMapping("/@{username}/followers")

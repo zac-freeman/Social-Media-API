@@ -1,11 +1,16 @@
 package com.cooksys.socialmediaassessment.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
 
 //TODO: dont use this
 public class TweetRequestDTO {
 
+	@NotNull
 	String Content;
+
+	@NotNull
 	Credentials credentials;
 
 	public String getContent() {

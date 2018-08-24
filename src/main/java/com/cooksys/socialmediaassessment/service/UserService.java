@@ -3,17 +3,20 @@ package com.cooksys.socialmediaassessment.service;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.embeddable.Profile;
+import com.cooksys.socialmediaassessment.entity.Tweet;
 import com.cooksys.socialmediaassessment.entity.User;
 import com.cooksys.socialmediaassessment.repository.UserRepository;
 
 	//TODO: ADD EXCEPTIONS AFTER FINISHING ENDPOINTS
 	//TODO: HANDLE DEACTIVATED USERS
+	//TODO: HANDLE HIDDEN TWEETS
 	//TODO: CATCH DUPLICATE ENTRIES
 @Service
 public class UserService {
@@ -28,6 +31,7 @@ public class UserService {
 		return this.uRepo.findAll();
 	}
 
+	//TODO: check if deactivated
 	public User createUser(User user) {
 		user.setJoined(new Timestamp(Instant.now().toEpochMilli()));
 		user.setActive(true);
@@ -88,9 +92,28 @@ public class UserService {
 		this.uRepo.save(follower);
 	}
 
-	//getFeed()
-	//getTweets()
-	//getMentions()
+	public Collection<Tweet> getFeed(String username) {
+		User user = this.getUser(username);
+		List<User> following = (List<User>) user.getFollowing();
+		List<Tweet> feed = (List<Tweet>) user.getTweets();
+		for (User followee : following) {
+			feed.addAll(followee.getTweets());
+		}
+		Collections.sort(feed, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
+		return feed;
+	}
+
+	public Collection<Tweet> getTweets(String username) {
+		List<Tweet> tweets = (List<Tweet>) this.getUser(username).getTweets();
+		Collections.sort(tweets, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
+		return tweets;
+	}
+
+	public Collection<Tweet> getMentions(String username) {
+		List<Tweet> mentions = (List<Tweet>) this.getUser(username).getMentions();
+		Collections.sort(mentions, (t1, t2) -> t1.getPosted().compareTo(t2.getPosted()));
+		return mentions;
+	}
 
 	public Collection<User> getFollowers(String username) {
 		User followee = this.uRepo.findUserByCredentialsUsername(username);

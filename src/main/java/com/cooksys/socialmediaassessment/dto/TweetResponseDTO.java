@@ -45,6 +45,7 @@ public class TweetResponseDTO {
 	public void setRepostOf(TweetResponseDTO repostOf) {
 		this.repostOf = repostOf;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
