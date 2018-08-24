@@ -159,14 +159,9 @@ public class User {
 		int result = 1;
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
-		result = prime * result + ((followers == null) ? 0 : followers.hashCode());
-		result = prime * result + ((following == null) ? 0 : following.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((joined == null) ? 0 : joined.hashCode());
-		result = prime * result + ((likedTweets == null) ? 0 : likedTweets.hashCode());
-		result = prime * result + ((mentions == null) ? 0 : mentions.hashCode());
 		result = prime * result + ((profile == null) ? 0 : profile.hashCode());
-		result = prime * result + ((tweets == null) ? 0 : tweets.hashCode());
 		return result;
 	}
 
@@ -189,16 +184,6 @@ public class User {
 				return false;
 		} else if (!credentials.equals(other.credentials))
 			return false;
-		if (followers == null) {
-			if (other.followers != null)
-				return false;
-		} else if (!followers.equals(other.followers))
-			return false;
-		if (following == null) {
-			if (other.following != null)
-				return false;
-		} else if (!following.equals(other.following))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -209,25 +194,10 @@ public class User {
 				return false;
 		} else if (!joined.equals(other.joined))
 			return false;
-		if (likedTweets == null) {
-			if (other.likedTweets != null)
-				return false;
-		} else if (!likedTweets.equals(other.likedTweets))
-			return false;
-		if (mentions == null) {
-			if (other.mentions != null)
-				return false;
-		} else if (!mentions.equals(other.mentions))
-			return false;
 		if (profile == null) {
 			if (other.profile != null)
 				return false;
 		} else if (!profile.equals(other.profile))
-			return false;
-		if (tweets == null) {
-			if (other.tweets != null)
-				return false;
-		} else if (!tweets.equals(other.tweets))
 			return false;
 		return true;
 	}

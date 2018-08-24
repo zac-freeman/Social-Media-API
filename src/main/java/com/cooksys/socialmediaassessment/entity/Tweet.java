@@ -54,11 +54,11 @@ public class Tweet {
 	private Set<User> mentionedUser;
 
 	@ManyToMany(mappedBy = "tweets")
-	private Set<Tag> hashTags;
+	private Set<Tag> hashtags;
 
 	public Tweet(Integer id, @NotNull User author, String content, @NotNull Timestamp posted,
 			@NotNull Boolean hidden, Set<Tweet> replies, Tweet inReplyTo, Set<Tweet> repost, Tweet repostOf,
-			Set<User> likes, Set<User> mentionedUser, Set<Tag> hashTags) {
+			Set<User> likes, Set<User> mentionedUser, Set<Tag> hashtags) {
 		super();
 		this.id = id;
 		this.author = author;
@@ -71,7 +71,7 @@ public class Tweet {
 		this.repostOf = repostOf;
 		this.likes = likes;
 		this.mentionedUser = mentionedUser;
-		this.hashTags = hashTags;
+		this.hashtags = hashtags;
 	}
 
 	public Integer getId() {
@@ -162,12 +162,12 @@ public class Tweet {
 		this.mentionedUser = mentionedUser;
 	}
 
-	public Set<Tag> getHashTags() {
-		return hashTags;
+	public Set<Tag> getHashtags() {
+		return hashtags;
 	}
 
-	public void setHashTags(Set<Tag> hashTags) {
-		this.hashTags = hashTags;
+	public void setHashtags(Set<Tag> hashtags) {
+		this.hashtags = hashtags;
 	}
 
 	@Override
@@ -177,15 +177,8 @@ public class Tweet {
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
 		result = prime * result + ((hidden == null) ? 0 : hidden.hashCode());
-		result = prime * result + ((hashTags == null) ? 0 : hashTags.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((inReplyTo == null) ? 0 : inReplyTo.hashCode());
-		result = prime * result + ((likes == null) ? 0 : likes.hashCode());
-		result = prime * result + ((mentionedUser == null) ? 0 : mentionedUser.hashCode());
 		result = prime * result + ((posted == null) ? 0 : posted.hashCode());
-		result = prime * result + ((replies == null) ? 0 : replies.hashCode());
-		result = prime * result + ((repost == null) ? 0 : repost.hashCode());
-		result = prime * result + ((repostOf == null) ? 0 : repostOf.hashCode());
 		return result;
 	}
 
@@ -213,50 +206,15 @@ public class Tweet {
 				return false;
 		} else if (!hidden.equals(other.hidden))
 			return false;
-		if (hashTags == null) {
-			if (other.hashTags != null)
-				return false;
-		} else if (!hashTags.equals(other.hashTags))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (inReplyTo == null) {
-			if (other.inReplyTo != null)
-				return false;
-		} else if (!inReplyTo.equals(other.inReplyTo))
-			return false;
-		if (likes == null) {
-			if (other.likes != null)
-				return false;
-		} else if (!likes.equals(other.likes))
-			return false;
-		if (mentionedUser == null) {
-			if (other.mentionedUser != null)
-				return false;
-		} else if (!mentionedUser.equals(other.mentionedUser))
-			return false;
 		if (posted == null) {
 			if (other.posted != null)
 				return false;
 		} else if (!posted.equals(other.posted))
-			return false;
-		if (replies == null) {
-			if (other.replies != null)
-				return false;
-		} else if (!replies.equals(other.replies))
-			return false;
-		if (repost == null) {
-			if (other.repost != null)
-				return false;
-		} else if (!repost.equals(other.repost))
-			return false;
-		if (repostOf == null) {
-			if (other.repostOf != null)
-				return false;
-		} else if (!repostOf.equals(other.repostOf))
 			return false;
 		return true;
 	}

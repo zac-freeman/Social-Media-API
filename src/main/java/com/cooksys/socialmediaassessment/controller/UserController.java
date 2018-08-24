@@ -18,12 +18,12 @@ import com.cooksys.socialmediaassessment.service.UserService;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UsersController {
+public class UserController {
 
 	private UserService uService;
 	private UserMapper uMapper;
 
-	public UsersController (UserService uService, UserMapper uMapper) {
+	public UserController (UserService uService, UserMapper uMapper) {
 		this.uService = uService;
 		this.uMapper = uMapper;
 	}
@@ -40,7 +40,7 @@ public class UsersController {
 
 	@GetMapping("/@{username}")
 	public UserResponseDTO getUser(@PathVariable(name = "username") String username) {
-		return this.uMapper.toResponseDTO(this.uService.getUserByName(username));
+		return this.uMapper.toResponseDTO(this.uService.getUser(username));
 	}
 
 	//TODO: ask how to pass this as a single object
@@ -58,5 +58,20 @@ public class UsersController {
 	@PostMapping("/@{username}/follow")
 	public void followUser(@PathVariable(name = "username") String usernameToFollow, Credentials followerCreds) {
 		this.uService.followUser(usernameToFollow, followerCreds);
+	}
+
+	@PostMapping("/@{username}/unfollow")
+	public void unfollowUser(@PathVariable(name = "username") String usernameToFollow, Credentials followerCreds) {
+		this.uService.unfollowUser(usernameToFollow, followerCreds);
+	}
+
+	@GetMapping("/@{username}/followers")
+	public List<UserResponseDTO> getFollowers(@PathVariable(name = "username") String username) {
+		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(this.uService.getFollowers(username));
+	}
+
+	@GetMapping("/@{username}/following")
+	public List<UserResponseDTO> getFollowing(@PathVariable(name = "username") String username) {
+		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(this.uService.getFollowing(username));
 	}
 }

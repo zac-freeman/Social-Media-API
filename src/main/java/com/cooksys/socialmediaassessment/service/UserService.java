@@ -2,6 +2,7 @@ package com.cooksys.socialmediaassessment.service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -12,7 +13,8 @@ import com.cooksys.socialmediaassessment.entity.User;
 import com.cooksys.socialmediaassessment.repository.UserRepository;
 
 	//TODO: ADD EXCEPTIONS AFTER FINISHING ENDPOINTS
-	//TODO: change plurals to singlulars after these endpoints
+	//TODO: HANDLE DEACTIVATED USERS
+	//TODO: CATCH DUPLICATE ENTRIES
 @Service
 public class UserService {
 
@@ -32,7 +34,7 @@ public class UserService {
 		return this.uRepo.save(user);
 	}
 
-	public User getUserByName(String username) {
+	public User getUser(String username) {
 		return this.uRepo.findUserByCredentialsUsername(username);
 	}
 
@@ -59,7 +61,6 @@ public class UserService {
 		return null;
 	}
 
-	//TODO: set all posts to hidden
 	public User deactivateUser(String username, String password) {
 		User deactivatedUser = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(username, password);
 		deactivatedUser.setActive(false);
@@ -77,5 +78,27 @@ public class UserService {
 		this.uRepo.save(follower);
 	}
 
+	public void unfollowUser(String usernameToFollow, Credentials followerCreds) {
+		User followee = this.uRepo.findUserByCredentialsUsername(usernameToFollow);
+		User follower = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(followerCreds.getUsername(), followerCreds.getPassword());
 
+		followee.getFollowers().remove(follower);
+		follower.getFollowing().remove(followee);
+		this.uRepo.save(followee);
+		this.uRepo.save(follower);
+	}
+
+	//getFeed()
+	//getTweets()
+	//getMentions()
+
+	public Collection<User> getFollowers(String username) {
+		User followee = this.uRepo.findUserByCredentialsUsername(username);
+		return followee.getFollowers();
+	}
+
+	public Collection<User> getFollowing(String username) {
+		User follower = this.uRepo.findUserByCredentialsUsername(username);
+		return follower.getFollowing();
+	}
 }

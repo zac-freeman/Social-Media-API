@@ -11,7 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Entity(name = "tags")
 public class Tag {
 
 	@Id
@@ -91,7 +91,6 @@ public class Tag {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((lastUsed == null) ? 0 : lastUsed.hashCode());
-		result = prime * result + ((tweets == null) ? 0 : tweets.hashCode());
 		return result;
 	}
 
@@ -123,11 +122,6 @@ public class Tag {
 			if (other.lastUsed != null)
 				return false;
 		} else if (!lastUsed.equals(other.lastUsed))
-			return false;
-		if (tweets == null) {
-			if (other.tweets != null)
-				return false;
-		} else if (!tweets.equals(other.tweets))
 			return false;
 		return true;
 	}
