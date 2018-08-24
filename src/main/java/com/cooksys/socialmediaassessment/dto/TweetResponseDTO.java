@@ -7,41 +7,52 @@ public class TweetResponseDTO {
 	private long posted;
 	private String content;
 	private TweetResponseDTO inReplyTo;
-	private TweetResponseDTO repostOf;	//TODO: ask what the contents of these tweets should be
+	private TweetResponseDTO repostOf; // TODO: ask what the contents of these tweets should be
 
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public UserResponseDTO getAuthor() {
 		return author;
 	}
+
 	public void setAuthor(UserResponseDTO author) {
 		this.author = author;
 	}
+
 	public long getPosted() {
 		return posted;
 	}
+
 	public void setPosted(long posted) {
 		this.posted = posted;
 	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public TweetResponseDTO getInReplyTo() {
 		return inReplyTo;
 	}
+
 	public void setInReplyTo(TweetResponseDTO inReplyTo) {
 		this.inReplyTo = inReplyTo;
 	}
+
 	public TweetResponseDTO getRepostOf() {
 		return repostOf;
 	}
+
 	public void setRepostOf(TweetResponseDTO repostOf) {
 		this.repostOf = repostOf;
 	}
@@ -56,6 +67,7 @@ public class TweetResponseDTO {
 		result = prime * result + (int) (posted ^ (posted >>> 32));
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -14,10 +14,10 @@ import com.cooksys.socialmediaassessment.entity.Tweet;
 import com.cooksys.socialmediaassessment.entity.User;
 import com.cooksys.socialmediaassessment.repository.UserRepository;
 
-	//TODO: ADD EXCEPTIONS AFTER FINISHING ENDPOINTS
-	//TODO: HANDLE DEACTIVATED USERS
-	//TODO: HANDLE HIDDEN TWEETS
-	//TODO: CATCH DUPLICATE ENTRIES
+//TODO: ADD EXCEPTIONS AFTER FINISHING ENDPOINTS
+//TODO: HANDLE DEACTIVATED USERS
+//TODO: HANDLE HIDDEN TWEETS
+//TODO: CATCH DUPLICATE ENTRIES
 @Service
 public class UserService {
 
@@ -31,7 +31,7 @@ public class UserService {
 		return this.uRepo.findAll();
 	}
 
-	//TODO: check if deactivated
+	// TODO: check if deactivated
 	public User createUser(User user) {
 		user.setJoined(new Timestamp(Instant.now().toEpochMilli()));
 		user.setActive(true);
@@ -47,7 +47,8 @@ public class UserService {
 		String givenPassword = user.getCredentials().getPassword();
 
 		if (givenUsername.equals(username)) {
-			User userToUpdate = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(givenUsername, givenPassword);
+			User userToUpdate = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(givenUsername,
+					givenPassword);
 			Profile oldProfile = userToUpdate.getProfile();
 			Profile newProfile = user.getProfile();
 			if (newProfile.getFirstName() != null) {
@@ -59,7 +60,9 @@ public class UserService {
 			if (user.getProfile().getFirstName() != null) {
 				oldProfile.setPhone(newProfile.getPhone());
 			}
-			oldProfile.setEmail(newProfile.getEmail());
+			if (user.getProfile().getEmail() != null) {
+				oldProfile.setEmail(newProfile.getEmail());
+			}
 			return this.uRepo.save(userToUpdate);
 		}
 		return null;
@@ -74,7 +77,8 @@ public class UserService {
 
 	public void followUser(String usernameToFollow, Credentials followerCreds) {
 		User followee = this.uRepo.findUserByCredentialsUsername(usernameToFollow);
-		User follower = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(followerCreds.getUsername(), followerCreds.getPassword());
+		User follower = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(followerCreds.getUsername(),
+				followerCreds.getPassword());
 
 		followee.getFollowers().add(follower);
 		follower.getFollowing().add(followee);
@@ -84,7 +88,8 @@ public class UserService {
 
 	public void unfollowUser(String usernameToFollow, Credentials followerCreds) {
 		User followee = this.uRepo.findUserByCredentialsUsername(usernameToFollow);
-		User follower = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(followerCreds.getUsername(), followerCreds.getPassword());
+		User follower = this.uRepo.findUserByCredentialsUsernameAndCredentialsPassword(followerCreds.getUsername(),
+				followerCreds.getPassword());
 
 		followee.getFollowers().remove(follower);
 		follower.getFollowing().remove(followee);

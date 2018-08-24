@@ -55,11 +55,12 @@ public class User {
 	@JoinTable(name = "user_like")
 	private Set<Tweet> likedTweets;
 
-	public User() {}
+	public User() {
+	}
 
 	public User(Integer id, @NotNull Credentials credentials, @NotNull Profile profile, @NotNull Timestamp joined,
-			@NotNull Boolean active, Set<User> following, Set<User> followers, Set<Tweet> tweets,
-			Set<Tweet> mentions, Set<Tweet> likedTweets) {
+			@NotNull Boolean active, Set<User> following, Set<User> followers, Set<Tweet> tweets, Set<Tweet> mentions,
+			Set<Tweet> likedTweets) {
 		super();
 		this.id = id;
 		this.credentials = credentials;

@@ -36,8 +36,8 @@ public class TweetService {
 		tweet.setAuthor(author);
 		tweet.setPosted(new Timestamp(Instant.now().toEpochMilli()));
 		tweet.setVisible(true);
-		//TODO: setMentionedUser
-		//TODO: setHashtags
+		// TODO: setMentionedUser
+		// TODO: setHashtags
 
 		author.getTweets().add(this.tRepo.save(tweet));
 		this.uRepo.save(author);
@@ -79,7 +79,5 @@ public class TweetService {
 		return this.tRepo.save(repost);
 	}
 
-	
-
-	//TODO: parsing function
+	// TODO: parsing function
 }

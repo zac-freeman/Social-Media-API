@@ -16,7 +16,6 @@ import com.cooksys.socialmediaassessment.dto.UserResponseDTO;
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.entity.Tag;
 import com.cooksys.socialmediaassessment.entity.Tweet;
-import com.cooksys.socialmediaassessment.entity.User;
 import com.cooksys.socialmediaassessment.mapper.TweetMapper;
 import com.cooksys.socialmediaassessment.mapper.UserMapper;
 import com.cooksys.socialmediaassessment.service.TweetService;
@@ -45,7 +44,7 @@ public class TweetController {
 		return this.tMapper.toResponseDTO(this.tService.createTweet(tweet.getContent(), tweet.getCredentials()));
 	}
 
-	//TODO: check if tweet is hidden
+	// TODO: check if tweet is hidden
 	@GetMapping("/{id}")
 	public TweetResponseDTO getTweet(@PathVariable(name = "id") Tweet tweet) {
 		return this.tMapper.toResponseDTO(tweet);
@@ -71,7 +70,7 @@ public class TweetController {
 		return this.tMapper.toResponseDTO(this.tService.repostTweet(tweet, reposter));
 	}
 
-	//TODO: convert Tag entity to DTO
+	// TODO: convert Tag entity to DTO
 	@GetMapping("/{id}/tags")
 	public List<Tag> getHashtags(@PathVariable(name = "id") Tweet tweet) {
 		return (List<Tag>) tweet.getHashtags();
@@ -82,7 +81,7 @@ public class TweetController {
 		return (List<UserResponseDTO>) this.uMapper.toResponseDTOs(tweet.getLikes());
 	}
 
-	//TODO: getContext()
+	// TODO: getContext()
 
 	@GetMapping("/{id}/replies")
 	public List<TweetResponseDTO> getDirectReplies(@PathVariable(name = "id") Tweet tweet) {

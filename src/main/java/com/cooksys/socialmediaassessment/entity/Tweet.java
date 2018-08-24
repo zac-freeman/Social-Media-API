@@ -56,11 +56,12 @@ public class Tweet {
 	@ManyToMany(mappedBy = "tweets")
 	private Set<Tag> hashtags;
 
-	public Tweet() {}
+	public Tweet() {
+	}
 
-	public Tweet(Integer id, @NotNull User author, String content, @NotNull Timestamp posted,
-			@NotNull Boolean visible, Set<Tweet> replies, Tweet inReplyTo, Set<Tweet> reposts, Tweet repostOf,
-			Set<User> likes, Set<User> mentionedUsers, Set<Tag> hashtags) {
+	public Tweet(Integer id, @NotNull User author, String content, @NotNull Timestamp posted, @NotNull Boolean visible,
+			Set<Tweet> replies, Tweet inReplyTo, Set<Tweet> reposts, Tweet repostOf, Set<User> likes,
+			Set<User> mentionedUsers, Set<Tag> hashtags) {
 		super();
 		this.id = id;
 		this.author = author;
@@ -221,5 +222,4 @@ public class Tweet {
 		return true;
 	}
 
-	
 }

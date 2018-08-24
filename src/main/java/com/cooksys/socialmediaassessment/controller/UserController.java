@@ -27,7 +27,7 @@ public class UserController {
 	private UserMapper uMapper;
 	private TweetMapper tMapper;
 
-	public UserController (UserService uService, UserMapper uMapper, TweetMapper tMapper) {
+	public UserController(UserService uService, UserMapper uMapper, TweetMapper tMapper) {
 		this.uService = uService;
 		this.uMapper = uMapper;
 		this.tMapper = tMapper;
@@ -49,22 +49,27 @@ public class UserController {
 	}
 
 	@PatchMapping("/@{username}")
-	public UserResponseDTO updateProfile(@PathVariable(name = "username") String username, @RequestBody UserRequestDTO userRequestDTO) {
-		return this.uMapper.toResponseDTO(this.uService.updateProfile(username, this.uMapper.fromRequestDTO(userRequestDTO)));
+	public UserResponseDTO updateProfile(@PathVariable(name = "username") String username,
+			@RequestBody UserRequestDTO userRequestDTO) {
+		return this.uMapper
+				.toResponseDTO(this.uService.updateProfile(username, this.uMapper.fromRequestDTO(userRequestDTO)));
 	}
 
 	@DeleteMapping("/@{username}")
-	public UserResponseDTO deactivateUser(@PathVariable(name = "username") String username, @RequestBody Credentials creds) {
+	public UserResponseDTO deactivateUser(@PathVariable(name = "username") String username,
+			@RequestBody Credentials creds) {
 		return this.uMapper.toResponseDTO(this.uService.deactivateUser(username, creds.getPassword()));
 	}
 
 	@PostMapping("/@{username}/follow")
-	public void followUser(@PathVariable(name = "username") String usernameToFollow, @RequestBody Credentials followerCreds) {
+	public void followUser(@PathVariable(name = "username") String usernameToFollow,
+			@RequestBody Credentials followerCreds) {
 		this.uService.followUser(usernameToFollow, followerCreds);
 	}
 
 	@PostMapping("/@{username}/unfollow")
-	public void unfollowUser(@PathVariable(name = "username") String usernameToFollow, @RequestBody Credentials followerCreds) {
+	public void unfollowUser(@PathVariable(name = "username") String usernameToFollow,
+			@RequestBody Credentials followerCreds) {
 		this.uService.unfollowUser(usernameToFollow, followerCreds);
 	}
 

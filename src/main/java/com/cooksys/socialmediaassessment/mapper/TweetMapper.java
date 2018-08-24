@@ -16,18 +16,17 @@ import com.cooksys.socialmediaassessment.entity.User;
 @Mapper(componentModel = "spring")
 public interface TweetMapper {
 
-	//TweetResponseDTO
+	// TweetResponseDTO
 	@Mapping(target = "posted", expression = "java(tweet.getPosted().getTime())")
 	TweetResponseDTO toResponseDTO(Tweet tweet);
+
 	Collection<TweetResponseDTO> toResponseDTOs(Collection<Tweet> tweets);
 
 	@Mapping(source = "credentials", target = "author.credentials")
 	Tweet fromRequestDTO(TweetRequestDTO tweetRequestDTO);
 
-	//UserResponseDTO
-	@Mappings({
-		@Mapping(target = "joined", expression = "java(user.getJoined().getTime())"),
-		@Mapping(source = "credentials.username", target = "username")
-	})
+	// UserResponseDTO
+	@Mappings({ @Mapping(target = "joined", expression = "java(user.getJoined().getTime())"),
+			@Mapping(source = "credentials.username", target = "username") })
 	UserResponseDTO toResponseDTO(User user);
 }

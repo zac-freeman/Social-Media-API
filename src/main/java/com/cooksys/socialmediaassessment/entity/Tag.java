@@ -31,7 +31,8 @@ public class Tag {
 	@JoinTable(name = "hashtag_tweet")
 	private Set<Tweet> tweets;
 
-	public Tag() {}
+	public Tag() {
+	}
 
 	public Tag(Integer id, @NotNull String label, @NotNull Timestamp firstUsed, @NotNull Timestamp lastUsed,
 			Set<Tweet> tweets) {

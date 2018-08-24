@@ -16,15 +16,19 @@ public class TweetRequestDTO {
 	public String getContent() {
 		return Content;
 	}
+
 	public void setContent(String content) {
 		Content = content;
 	}
+
 	public Credentials getCredentials() {
 		return credentials;
 	}
+
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -33,6 +37,7 @@ public class TweetRequestDTO {
 		result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
