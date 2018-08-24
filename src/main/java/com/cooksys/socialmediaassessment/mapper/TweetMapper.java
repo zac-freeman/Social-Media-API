@@ -10,6 +10,7 @@ import com.cooksys.socialmediaassessment.dto.TweetRequestDTO;
 import com.cooksys.socialmediaassessment.dto.TweetResponseDTO;
 import com.cooksys.socialmediaassessment.entity.Tweet;
 
+//TODO: MOVE BROKEN MAPPING LOGIC TO TweetService
 @Mapper(componentModel = "spring")
 public interface TweetMapper {
 
