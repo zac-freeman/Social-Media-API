@@ -8,4 +8,5 @@ import com.cooksys.socialmediaassessment.entity.Tag;
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
 
+	Tag findTagByLabel(String label);
 }

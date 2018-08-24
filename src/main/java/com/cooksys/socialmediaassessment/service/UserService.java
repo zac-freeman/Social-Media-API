@@ -27,6 +27,11 @@ public class UserService {
 		this.uRepo = uRepo;
 	}
 
+
+	public boolean exists(String username) {
+		return (this.uRepo.findUserByCredentialsUsername(username) != null);
+	}
+
 	public List<User> getUsers() {
 		return this.uRepo.findAll();
 	}
