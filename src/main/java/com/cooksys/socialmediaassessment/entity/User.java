@@ -16,8 +16,8 @@ import javax.validation.constraints.NotNull;
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.embeddable.Profile;
 
-@Entity
-public class Users {
+@Entity(name = "users")
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -38,28 +38,28 @@ public class Users {
 	private Boolean active;
 
 	@ManyToMany(mappedBy = "followers")
-	private Set<Users> following;
+	private Set<User> following;
 
 	@ManyToMany
 	@JoinTable(name = "followee_follower")
-	private Set<Users> followers;
+	private Set<User> followers;
 
 	@OneToMany
-	private Set<Tweets> tweets;
+	private Set<Tweet> tweets;
 
 	@ManyToMany
 	@JoinTable(name = "user_mention")
-	private Set<Tweets> mentions;
+	private Set<Tweet> mentions;
 
 	@ManyToMany
 	@JoinTable(name = "user_like")
-	private Set<Tweets> likedTweets;
+	private Set<Tweet> likedTweets;
 
-	public Users() {}
+	public User() {}
 
-	public Users(Integer id, @NotNull Credentials credentials, @NotNull Profile profile, @NotNull Timestamp joined,
-			@NotNull Boolean active, Set<Users> following, Set<Users> followers, Set<Tweets> tweets,
-			Set<Tweets> mentions, Set<Tweets> likedTweets) {
+	public User(Integer id, @NotNull Credentials credentials, @NotNull Profile profile, @NotNull Timestamp joined,
+			@NotNull Boolean active, Set<User> following, Set<User> followers, Set<Tweet> tweets,
+			Set<Tweet> mentions, Set<Tweet> likedTweets) {
 		super();
 		this.id = id;
 		this.credentials = credentials;
@@ -113,43 +113,43 @@ public class Users {
 		this.active = active;
 	}
 
-	public Set<Users> getFollowing() {
+	public Set<User> getFollowing() {
 		return following;
 	}
 
-	public void setFollowing(Set<Users> following) {
+	public void setFollowing(Set<User> following) {
 		this.following = following;
 	}
 
-	public Set<Users> getFollowers() {
+	public Set<User> getFollowers() {
 		return followers;
 	}
 
-	public void setFollowers(Set<Users> followers) {
+	public void setFollowers(Set<User> followers) {
 		this.followers = followers;
 	}
 
-	public Set<Tweets> getTweets() {
+	public Set<Tweet> getTweets() {
 		return tweets;
 	}
 
-	public void setTweets(Set<Tweets> tweets) {
+	public void setTweets(Set<Tweet> tweets) {
 		this.tweets = tweets;
 	}
 
-	public Set<Tweets> getMentions() {
+	public Set<Tweet> getMentions() {
 		return mentions;
 	}
 
-	public void setMentions(Set<Tweets> mentions) {
+	public void setMentions(Set<Tweet> mentions) {
 		this.mentions = mentions;
 	}
 
-	public Set<Tweets> getLikedTweets() {
+	public Set<Tweet> getLikedTweets() {
 		return likedTweets;
 	}
 
-	public void setLikedTweets(Set<Tweets> likedTweets) {
+	public void setLikedTweets(Set<Tweet> likedTweets) {
 		this.likedTweets = likedTweets;
 	}
 
@@ -178,7 +178,7 @@ public class Users {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Users other = (Users) obj;
+		User other = (User) obj;
 		if (active == null) {
 			if (other.active != null)
 				return false;

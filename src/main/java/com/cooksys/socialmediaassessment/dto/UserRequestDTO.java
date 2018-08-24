@@ -1,19 +1,19 @@
 package com.cooksys.socialmediaassessment.dto;
 
+import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.embeddable.Profile;
 
-public class UsersResponseDTO {
+public class UserRequestDTO {
 
-	private String username;
+	private Credentials credentials;
 	private Profile profile;
-	private long joined;
 
-	public String getUsername() {
-		return username;
+	public Credentials getCredentials() {
+		return credentials;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
 	}
 
 	public Profile getProfile() {
@@ -24,21 +24,12 @@ public class UsersResponseDTO {
 		this.profile = profile;
 	}
 
-	public long getJoined() {
-		return joined;
-	}
-
-	public void setJoined(long joined) {
-		this.joined = joined;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (joined ^ (joined >>> 32));
+		result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
 		result = prime * result + ((profile == null) ? 0 : profile.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -50,18 +41,16 @@ public class UsersResponseDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UsersResponseDTO other = (UsersResponseDTO) obj;
-		if (joined != other.joined)
+		UserRequestDTO other = (UserRequestDTO) obj;
+		if (credentials == null) {
+			if (other.credentials != null)
+				return false;
+		} else if (!credentials.equals(other.credentials))
 			return false;
 		if (profile == null) {
 			if (other.profile != null)
 				return false;
 		} else if (!profile.equals(other.profile))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
 			return false;
 		return true;
 	}

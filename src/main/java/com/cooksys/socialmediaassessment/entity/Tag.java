@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Tags {
+public class Tag {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -29,12 +29,12 @@ public class Tags {
 
 	@ManyToMany
 	@JoinTable(name = "hashtag_tweet")
-	private Set<Tweets> tweets;
+	private Set<Tweet> tweets;
 
-	public Tags() {}
+	public Tag() {}
 
-	public Tags(Integer id, @NotNull String label, @NotNull Timestamp firstUsed, @NotNull Timestamp lastUsed,
-			Set<Tweets> tweets) {
+	public Tag(Integer id, @NotNull String label, @NotNull Timestamp firstUsed, @NotNull Timestamp lastUsed,
+			Set<Tweet> tweets) {
 		super();
 		this.id = id;
 		this.label = label;
@@ -75,11 +75,11 @@ public class Tags {
 		this.lastUsed = lastUsed;
 	}
 
-	public Set<Tweets> getTweets() {
+	public Set<Tweet> getTweets() {
 		return tweets;
 	}
 
-	public void setTweets(Set<Tweets> tweets) {
+	public void setTweets(Set<Tweet> tweets) {
 		this.tweets = tweets;
 	}
 
@@ -103,7 +103,7 @@ public class Tags {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tags other = (Tags) obj;
+		Tag other = (Tag) obj;
 		if (firstUsed == null) {
 			if (other.firstUsed != null)
 				return false;
