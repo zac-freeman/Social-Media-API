@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cooksys.socialmediaassessment.dto.TweetRequestDTO;
 import com.cooksys.socialmediaassessment.dto.TweetResponseDTO;
+import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.entity.Tweet;
 import com.cooksys.socialmediaassessment.mapper.TweetMapper;
 import com.cooksys.socialmediaassessment.service.TweetService;
@@ -32,8 +32,8 @@ public class TweetController {
 	}
 
 	@PostMapping
-	public TweetResponseDTO createTweet(TweetRequestDTO tweetRequestDTO) {
-		return this.tMapper.toResponseDTO(this.tService.createTweet(this.tMapper.fromRequestDTO(tweetRequestDTO)));
+	public TweetResponseDTO createTweet(String content, Credentials credentials) {
+		return this.tMapper.toResponseDTO(this.tService.createTweet(content, credentials));
 	}
 
 	@GetMapping("/@{id}")

@@ -3,6 +3,7 @@ package com.cooksys.socialmediaassessment.dto;
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.embeddable.Profile;
 
+//TODO: remove and replace with what is needed for specific requests
 public class UserRequestDTO {
 
 	private Credentials credentials;

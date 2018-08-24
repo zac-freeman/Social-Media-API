@@ -8,20 +8,26 @@ import org.mapstruct.Mappings;
 
 import com.cooksys.socialmediaassessment.dto.TweetRequestDTO;
 import com.cooksys.socialmediaassessment.dto.TweetResponseDTO;
+import com.cooksys.socialmediaassessment.dto.UserResponseDTO;
 import com.cooksys.socialmediaassessment.entity.Tweet;
+import com.cooksys.socialmediaassessment.entity.User;
 
 //TODO: MOVE BROKEN MAPPING LOGIC TO TweetService
 @Mapper(componentModel = "spring")
 public interface TweetMapper {
 
 	//TweetResponseDTO
-	@Mappings ({
-		@Mapping(target = "posted", expression = "java(tweet.getPosted().getTime())"),
-		@Mapping(target = "author", expression = "java(UserMapper.toResponseDTO(tweet.getAuthor()))")	//TODO: find out right way to convert interior entities to DTOs
-	})
+	@Mapping(target = "posted", expression = "java(tweet.getPosted().getTime())")
 	TweetResponseDTO toResponseDTO(Tweet tweet);
 	Collection<TweetResponseDTO> toResponseDTOs(Collection<Tweet> tweets);
 
-	@Mapping(target = "author", expression = "java(UserRepository.findUserFromCredentials(tweetRequestDTO.getCredentials()))")	//TODO: find out right way to find necessary objects
+	@Mapping(source = "credentials", target = "author.credentials")
 	Tweet fromRequestDTO(TweetRequestDTO tweetRequestDTO);
+
+	//UserResponseDTO
+	@Mappings({
+		@Mapping(target = "joined", expression = "java(user.getJoined().getTime())"),
+		@Mapping(source = "credentials.username", target = "username")
+	})
+	UserResponseDTO toResponseDTO(User user);
 }

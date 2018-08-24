@@ -2,10 +2,12 @@ package com.cooksys.socialmediaassessment.dto;
 
 import com.cooksys.socialmediaassessment.embeddable.Credentials;
 
+//TODO: dont use this
 public class TweetRequestDTO {
 
 	String Content;
 	Credentials credentials;
+
 	public String getContent() {
 		return Content;
 	}

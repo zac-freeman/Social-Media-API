@@ -31,7 +31,7 @@ public class Tweet {
 	private Timestamp posted;
 
 	@NotNull
-	private Boolean hidden;
+	private Boolean visible;
 
 	@OneToMany
 	private Set<Tweet> replies;
@@ -41,7 +41,7 @@ public class Tweet {
 	private Tweet inReplyTo;
 
 	@OneToMany
-	private Set<Tweet> repost;
+	private Set<Tweet> reposts;
 
 	@ManyToOne
 	@JoinColumn(name = "repostOf_id")
@@ -51,26 +51,28 @@ public class Tweet {
 	private Set<User> likes;
 
 	@ManyToMany(mappedBy = "mentions")
-	private Set<User> mentionedUser;
+	private Set<User> mentionedUsers;
 
 	@ManyToMany(mappedBy = "tweets")
 	private Set<Tag> hashtags;
 
+	public Tweet() {}
+
 	public Tweet(Integer id, @NotNull User author, String content, @NotNull Timestamp posted,
-			@NotNull Boolean hidden, Set<Tweet> replies, Tweet inReplyTo, Set<Tweet> repost, Tweet repostOf,
-			Set<User> likes, Set<User> mentionedUser, Set<Tag> hashtags) {
+			@NotNull Boolean visible, Set<Tweet> replies, Tweet inReplyTo, Set<Tweet> reposts, Tweet repostOf,
+			Set<User> likes, Set<User> mentionedUsers, Set<Tag> hashtags) {
 		super();
 		this.id = id;
 		this.author = author;
 		this.content = content;
 		this.posted = posted;
-		this.hidden = hidden;
+		this.visible = visible;
 		this.replies = replies;
 		this.inReplyTo = inReplyTo;
-		this.repost = repost;
+		this.reposts = reposts;
 		this.repostOf = repostOf;
 		this.likes = likes;
-		this.mentionedUser = mentionedUser;
+		this.mentionedUsers = mentionedUsers;
 		this.hashtags = hashtags;
 	}
 
@@ -106,12 +108,12 @@ public class Tweet {
 		this.posted = posted;
 	}
 
-	public Boolean gethidden() {
-		return hidden;
+	public Boolean getVisible() {
+		return visible;
 	}
 
-	public void sethidden(Boolean hidden) {
-		this.hidden = hidden;
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 
 	public Set<Tweet> getReplies() {
@@ -130,12 +132,12 @@ public class Tweet {
 		this.inReplyTo = inReplyTo;
 	}
 
-	public Set<Tweet> getRepost() {
-		return repost;
+	public Set<Tweet> getReposts() {
+		return reposts;
 	}
 
-	public void setRepost(Set<Tweet> repost) {
-		this.repost = repost;
+	public void setReposts(Set<Tweet> reposts) {
+		this.reposts = reposts;
 	}
 
 	public Tweet getRepostOf() {
@@ -154,12 +156,12 @@ public class Tweet {
 		this.likes = likes;
 	}
 
-	public Set<User> getMentionedUser() {
-		return mentionedUser;
+	public Set<User> getMentionedUsers() {
+		return mentionedUsers;
 	}
 
-	public void setMentionedUser(Set<User> mentionedUser) {
-		this.mentionedUser = mentionedUser;
+	public void setMentionedUsers(Set<User> mentionedUsers) {
+		this.mentionedUsers = mentionedUsers;
 	}
 
 	public Set<Tag> getHashtags() {
@@ -176,7 +178,7 @@ public class Tweet {
 		int result = 1;
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + ((hidden == null) ? 0 : hidden.hashCode());
+		result = prime * result + ((visible == null) ? 0 : visible.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((posted == null) ? 0 : posted.hashCode());
 		return result;
@@ -201,10 +203,10 @@ public class Tweet {
 				return false;
 		} else if (!content.equals(other.content))
 			return false;
-		if (hidden == null) {
-			if (other.hidden != null)
+		if (visible == null) {
+			if (other.visible != null)
 				return false;
-		} else if (!hidden.equals(other.hidden))
+		} else if (!visible.equals(other.visible))
 			return false;
 		if (id == null) {
 			if (other.id != null)
