@@ -19,12 +19,12 @@ public class TagController {
 
 	private TagService tagService;
 	private TagMapper tagMapper;
-	private TweetMapper tMapper;
+	private TweetMapper tweetMapper;
 
-	public TagController(TagService tagService, TagMapper tagMapper, TweetMapper tMapper) {
+	public TagController(TagService tagService, TagMapper tagMapper, TweetMapper tweetMapper) {
 		this.tagService = tagService;
 		this.tagMapper = tagMapper;
-		this.tMapper = tMapper;
+		this.tweetMapper = tweetMapper;
 	}
 
 	@GetMapping
@@ -34,6 +34,6 @@ public class TagController {
 
 	@GetMapping("/{label}")
 	public List<TweetResponseDTO> getTweets(@PathVariable(name = "label") String label) {
-		return this.tMapper.toResponseDTOs(this.tagService.getTweets(label));
+		return this.tweetMapper.toResponseDTOs(this.tagService.getTweets(label));
 	}
 }

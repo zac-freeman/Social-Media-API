@@ -23,79 +23,79 @@ import com.cooksys.socialmediaassessment.service.UserService;
 @RequestMapping(value = "/users")
 public class UserController {
 
-	private UserService uService;
-	private UserMapper uMapper;
-	private TweetMapper tMapper;
+	private UserService userService;
+	private UserMapper userMapper;
+	private TweetMapper tweetMapper;
 
-	public UserController(UserService uService, UserMapper uMapper, TweetMapper tMapper) {
-		this.uService = uService;
-		this.uMapper = uMapper;
-		this.tMapper = tMapper;
+	public UserController(UserService userService, UserMapper userMapper, TweetMapper tweetMapper) {
+		this.userService = userService;
+		this.userMapper = userMapper;
+		this.tweetMapper = tweetMapper;
 	}
 
 	@GetMapping
 	public List<UserResponseDTO> getUsers() {
-		return this.uMapper.toResponseDTOs(this.uService.getUsers());
+		return this.userMapper.toResponseDTOs(this.userService.getUsers());
 	}
 
 	@PostMapping
 	public UserResponseDTO createUser(@RequestBody UserRequestDTO userRequestDTO) {
-		return this.uMapper.toResponseDTO(this.uService.createUser(this.uMapper.fromRequestDTO(userRequestDTO)));
+		return this.userMapper.toResponseDTO(this.userService.createUser(this.userMapper.fromRequestDTO(userRequestDTO)));
 	}
 
 	@GetMapping("/@{username}")
 	public UserResponseDTO getUser(@PathVariable(name = "username") String username) {
-		return this.uMapper.toResponseDTO(this.uService.getUser(username));
+		return this.userMapper.toResponseDTO(this.userService.getUser(username));
 	}
 
 	//TODO: make sure it ignores null fields
 	@PatchMapping("/@{username}")
 	public UserResponseDTO updateProfile(@PathVariable(name = "username") String username,
 			@RequestBody UserRequestDTO userRequestDTO) {
-		return this.uMapper
-				.toResponseDTO(this.uService.updateProfile(username, this.uMapper.fromRequestDTO(userRequestDTO)));
+		return this.userMapper
+				.toResponseDTO(this.userService.updateProfile(username, this.userMapper.fromRequestDTO(userRequestDTO)));
 	}
 
 	@DeleteMapping("/@{username}")
 	public UserResponseDTO deactivateUser(@PathVariable(name = "username") String username,
 			@RequestBody Credentials creds) {
-		return this.uMapper.toResponseDTO(this.uService.deactivateUser(username, creds.getPassword()));
+		return this.userMapper.toResponseDTO(this.userService.deactivateUser(username, creds.getPassword()));
 	}
 
 	@PostMapping("/@{username}/follow")
 	public void followUser(@PathVariable(name = "username") String usernameToFollow,
 			@RequestBody Credentials followerCreds) {
-		this.uService.followUser(usernameToFollow, followerCreds);
+		this.userService.followUser(usernameToFollow, followerCreds);
 	}
 
 	@PostMapping("/@{username}/unfollow")
 	public void unfollowUser(@PathVariable(name = "username") String usernameToFollow,
 			@RequestBody Credentials followerCreds) {
-		this.uService.unfollowUser(usernameToFollow, followerCreds);
+		this.userService.unfollowUser(usernameToFollow, followerCreds);
 	}
 
 	@GetMapping("/@{username}/feed")
 	public List<TweetResponseDTO> getFeed(@PathVariable(name = "username") String username) {
-		return this.tMapper.toResponseDTOs(this.uService.getFeed(username));
+		return this.tweetMapper.toResponseDTOs(this.userService.getFeed(username));
 	}
 
 	@GetMapping("/@{username}/tweets")
 	public List<TweetResponseDTO> getTweets(@PathVariable(name = "username") String username) {
-		return this.tMapper.toResponseDTOs(this.uService.getTweets(username));
+		return this.tweetMapper.toResponseDTOs(this.userService.getTweets(username));
 	}
 
 	@GetMapping("/@{username}/mentions")
 	public List<TweetResponseDTO> getMentions(@PathVariable(name = "username") String username) {
-		return this.tMapper.toResponseDTOs(this.uService.getMentions(username));
+		return this.tweetMapper.toResponseDTOs(this.userService.getMentions(username));
 	}
 
 	@GetMapping("/@{username}/followers")
 	public List<UserResponseDTO> getFollowers(@PathVariable(name = "username") String username) {
-		return this.uMapper.toResponseDTOs(this.uService.getFollowers(username));
+		return this.userMapper.toResponseDTOs(this.userService.getFollowers(username));
 	}
 
 	@GetMapping("/@{username}/following")
 	public List<UserResponseDTO> getFollowing(@PathVariable(name = "username") String username) {
-		return this.uMapper.toResponseDTOs(this.uService.getFollowing(username));
+		return this.userMapper.toResponseDTOs(this.userService.getFollowing(username));
 	}
 }

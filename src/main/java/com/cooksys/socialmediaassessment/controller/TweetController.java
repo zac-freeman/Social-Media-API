@@ -24,50 +24,50 @@ import com.cooksys.socialmediaassessment.service.TweetService;
 @RequestMapping(value = "/tweets")
 public class TweetController {
 
-	private TweetService tService;
-	private TweetMapper tMapper;
-	private UserMapper uMapper;
+	private TweetService tweetService;
+	private TweetMapper tweetMapper;
+	private UserMapper userMapper;
 
-	public TweetController(TweetService tService, TweetMapper tMapper, UserMapper uMapper) {
-		this.tService = tService;
-		this.tMapper = tMapper;
-		this.uMapper = uMapper;
+	public TweetController(TweetService tweetService, TweetMapper tweetMapper, UserMapper userMapper) {
+		this.tweetService = tweetService;
+		this.tweetMapper = tweetMapper;
+		this.userMapper = userMapper;
 	}
 
 	@GetMapping
 	public List<TweetResponseDTO> getTweets() {
-		return this.tMapper.toResponseDTOs(this.tService.getTweets());
+		return this.tweetMapper.toResponseDTOs(this.tweetService.getTweets());
 	}
 
 	@PostMapping
 	public TweetResponseDTO createTweet(@RequestBody TweetRequestDTO tweet) {
-		return this.tMapper.toResponseDTO(this.tService.createTweet(tweet.getContent(), tweet.getCredentials()));
+		return this.tweetMapper.toResponseDTO(this.tweetService.createTweet(tweet.getContent(), tweet.getCredentials()));
 	}
 
 	// TODO: check if tweet is hidden
 	@GetMapping("/{id}")
 	public TweetResponseDTO getTweet(@PathVariable(name = "id") Tweet tweet) {
-		return this.tMapper.toResponseDTO(tweet);
+		return this.tweetMapper.toResponseDTO(tweet);
 	}
 
 	@DeleteMapping("/{id}")
 	public TweetResponseDTO hideTweet(@PathVariable(name = "id") Tweet tweet, @RequestBody Credentials creds) {
-		return this.tMapper.toResponseDTO(this.tService.hideTweet(tweet, creds));
+		return this.tweetMapper.toResponseDTO(this.tweetService.hideTweet(tweet, creds));
 	}
 
 	@PostMapping("/{id}/like")
 	public void likeTweet(@PathVariable(name = "id") Tweet tweet, @RequestBody Credentials creds) {
-		this.tService.likeTweet(tweet, creds);
+		this.tweetService.likeTweet(tweet, creds);
 	}
 
 	@PostMapping("/{id}/reply")
 	public TweetResponseDTO replyToTweet(@PathVariable(name = "id") Tweet tweet, @RequestBody TweetRequestDTO reply) {
-		return this.tMapper.toResponseDTO(this.tService.replyToTweet(tweet, reply));
+		return this.tweetMapper.toResponseDTO(this.tweetService.replyToTweet(tweet, reply));
 	}
 
 	@PostMapping("/{id}/repost")
 	public TweetResponseDTO repostTweet(@PathVariable(name = "id") Tweet tweet, @RequestBody Credentials reposter) {
-		return this.tMapper.toResponseDTO(this.tService.repostTweet(tweet, reposter));
+		return this.tweetMapper.toResponseDTO(this.tweetService.repostTweet(tweet, reposter));
 	}
 
 	// TODO: convert Tag entity to DTO
@@ -78,23 +78,23 @@ public class TweetController {
 
 	@GetMapping("/{id}/likes")
 	public List<UserResponseDTO> getLikes(@PathVariable(name = "id") Tweet tweet) {
-		return this.uMapper.toResponseDTOs(tweet.getLikes());
+		return this.userMapper.toResponseDTOs(tweet.getLikes());
 	}
 
 	// TODO: getContext()
 
 	@GetMapping("/{id}/replies")
 	public List<TweetResponseDTO> getDirectReplies(@PathVariable(name = "id") Tweet tweet) {
-		return this.tMapper.toResponseDTOs(tweet.getReplies());
+		return this.tweetMapper.toResponseDTOs(tweet.getReplies());
 	}
 
 	@GetMapping("/{id}/reposts")
 	public List<TweetResponseDTO> getDirectReposts(@PathVariable(name = "id") Tweet tweet) {
-		return this.tMapper.toResponseDTOs(tweet.getReposts());
+		return this.tweetMapper.toResponseDTOs(tweet.getReposts());
 	}
 
 	@GetMapping("/{id}/mentions")
 	public List<UserResponseDTO> getMentions(@PathVariable(name = "id") Tweet tweet) {
-		return this.uMapper.toResponseDTOs(tweet.getMentionedUsers());
+		return this.userMapper.toResponseDTOs(tweet.getMentionedUsers());
 	}
 }

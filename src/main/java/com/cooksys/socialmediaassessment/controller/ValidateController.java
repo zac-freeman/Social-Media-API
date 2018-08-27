@@ -13,11 +13,11 @@ import com.cooksys.socialmediaassessment.service.UserService;
 public class ValidateController {
 
 	private TagService tagService;
-	private UserService uService;
+	private UserService userService;
 
-	public ValidateController(TagService tagService, UserService uService) {
+	public ValidateController(TagService tagService, UserService userService) {
 		this.tagService = tagService;
-		this.uService = uService;
+		this.userService = userService;
 	}
 
 	@GetMapping("/tag/exists/{label}")
@@ -27,11 +27,11 @@ public class ValidateController {
 
 	@GetMapping("/tag/exists/@{username}")
 	public boolean userExists(@PathVariable(name = "username") String username) {
-		return this.uService.exists(username);
+		return this.userService.exists(username);
 	}
 
 	@GetMapping("/username/available/@{username}")
 	public boolean usernameAvailable(@PathVariable(name = "username") String username) {
-		return !this.uService.exists(username);
+		return !this.userService.exists(username);
 	}
 }
