@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.socialmediaassessment.dto.TweetContextDTO;
 import com.cooksys.socialmediaassessment.dto.TweetRequestDTO;
 import com.cooksys.socialmediaassessment.dto.TweetResponseDTO;
 import com.cooksys.socialmediaassessment.dto.UserResponseDTO;
@@ -81,7 +82,10 @@ public class TweetController {
 		return this.userMapper.toResponseDTOs(tweet.getLikes());
 	}
 
-	// TODO: getContext()
+	@GetMapping("/{id}/context")
+	public List<TweetContextDTO> getContext(@PathVariable(name = "id") Integer id) {
+		return null;
+	}
 
 	@GetMapping("/{id}/replies")
 	public List<TweetResponseDTO> getDirectReplies(@PathVariable(name = "id") Tweet tweet) {
