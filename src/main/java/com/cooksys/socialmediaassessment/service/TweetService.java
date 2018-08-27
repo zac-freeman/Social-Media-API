@@ -45,26 +45,6 @@ public class TweetService {
 		tweet.setAuthor(author);
 		tweet.setPosted(new Timestamp(Instant.now().toEpochMilli()));
 		tweet.setVisible(true);
-//		for (String mention : this.parseMentions(content)) {
-//			mention = mention.substring(1);
-//			User mentionedUser = this.uRepo.findUserByCredentialsUsername(mention);
-//			mentionedUser.getMentions().add(tweet);
-//			tweet.getMentionedUsers().add(mentionedUser);
-//			this.uRepo.save(mentionedUser);
-//		}
-//		for (String label : this.parseHashtags(content)) {
-//			label = label.substring(1);
-//			Tag hashtag = this.tagRepo.findTagByLabel(label);
-//			if (hashtag == null) {
-//				hashtag = new Tag();
-//				hashtag.setFirstUsed(new Timestamp(Instant.now().toEpochMilli()));
-//				hashtag.setLabel(label);
-//			}
-//			hashtag.getTweets().add(tweet);
-//			hashtag.setLastUsed(new Timestamp(Instant.now().toEpochMilli()));
-//			this.tagRepo.save(hashtag);
-//		}
-
 		author.getTweets().add(this.tRepo.save(tweet));
 		this.uRepo.save(author);
 		return tweet;
