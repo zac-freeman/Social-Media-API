@@ -89,6 +89,22 @@ public class User {
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
 	}
+	
+	public String getUsername() {
+		return credentials.getUsername();
+	}
+
+	public void setUsername(String username) {
+		this.credentials.setUsername(username);
+	}
+
+	public String getPassword() {
+		return credentials.getPassword();
+	}
+
+	public void setPassword(String password) {
+		this.credentials.setPassword(password);
+	}
 
 	public Profile getProfile() {
 		return profile;

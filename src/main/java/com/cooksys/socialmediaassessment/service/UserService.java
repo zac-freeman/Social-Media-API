@@ -11,6 +11,8 @@ import com.cooksys.socialmediaassessment.embeddable.Credentials;
 import com.cooksys.socialmediaassessment.embeddable.Profile;
 import com.cooksys.socialmediaassessment.entity.Tweet;
 import com.cooksys.socialmediaassessment.entity.User;
+import com.cooksys.socialmediaassessment.exception.InvalidCredentialsException;
+import com.cooksys.socialmediaassessment.exception.UserAlreadyExistsException;
 import com.cooksys.socialmediaassessment.repository.TweetRepository;
 import com.cooksys.socialmediaassessment.repository.UserRepository;
 
@@ -28,22 +30,35 @@ public class UserService {
 		this.tRepo = tRepo;
 	}
 
-
-	public boolean exists(String username) {
-		return (this.uRepo.findUserByCredentialsUsername(username) != null);
-	}
-
 	public List<User> getUsers() {
 		List<User> users = this.uRepo.findAll();
-		users.removeIf(u -> u.getActive() == false);
+		users.removeIf(u -> !u.getActive());
 		return users;
 	}
 
 	public User createUser(User user) {
-		if (!this.exists(user.getCredentials().getUsername())) {
+
+		if (user.getCredentials() == null || user.getUsername() == null || user.getPassword() == null) {
+			throw new InvalidCredentialsException();
+		}
+
+		String username = user.getUsername();
+		User originalUser = this.uRepo.findUserByCredentialsUsername(username);
+		if (this.exists(username)) {
+			if (originalUser.getActive() || !user.getCredentials().equals(originalUser.getCredentials())) {
+				throw new UserAlreadyExistsException(username);
+			}
+		}
+
+		if (!this.exists(username)) {
 			user.setJoined(new Timestamp(Instant.now().toEpochMilli()));
 			user.setActive(true);
 			return this.uRepo.save(user);
+		}
+
+		if (!originalUser.getActive() && user.getCredentials().equals(originalUser.getCredentials())) {
+			originalUser.setActive(true);
+			return this.uRepo.save(originalUser);
 		}
 		return null;
 	}
@@ -146,5 +161,9 @@ public class UserService {
 	public List<User> getFollowing(String username) {
 		User follower = this.uRepo.findUserByCredentialsUsername(username);
 		return follower.getFollowing();
+	}
+
+	public boolean exists(String username) {
+		return (this.uRepo.existsByCredentialsUsername(username));
 	}
 }
